@@ -1,0 +1,45 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import math
+import array
+
+#Ask for driving force
+Fd = float(input("What is the driving force? "))
+#Ask for initial release angle
+angle = float(input("What is the initial release angle (degrees)? "))
+#Ask for daming parameter
+q = float(input("What is the damping parameter? "))
+
+#number of steps
+n = 1000
+dt = 0.04
+t = np.zeros(n)
+t[0] = 0.0
+
+#initial conditions
+g = 9.81
+l = 9.81
+w = np.zeros(n)
+w[0] = 0
+T = np.zeros(n)
+T[0] = (2*(np.pi)/1)
+theta = np.zeros(n)
+#convert angle to radians
+#theta = math.radians(theta)
+theta[0] = float(math.radians(angle)) 
+
+#loop
+for i in range(0 , n-1):
+    t[i+1] = i*dt
+    w[i+1] = w[i] - np.sin(theta[i]) * dt  - float(q) * w[i] * dt
+    theta[i+1] = theta[i] + w[i+1] * dt
+    T[i+1] = T[i] + dt
+
+# Plot the motion of the pendulum
+plt.plot(t, theta)
+plt.xlim(0,30)
+plt.ylim(-5, 5)
+plt.xlabel('Time (sec)')
+plt.ylabel('Angle (rad)')
+plt.title('Pendulum Motion')
+plt.show()
